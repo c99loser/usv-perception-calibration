@@ -1,0 +1,27 @@
+# Local/editor state
+.vscode/
+.tmp/
+.codex_pydeps/
+.agents/
+.codex/
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Large local datasets and generated outputs
+数据/
+output/
+*.mcap
+*.db3
+*.sqlite3
+
+# Reference documents kept local unless explicitly requested
+*.pdf
+
+# OS metadata
+Thumbs.db
+Desktop.ini

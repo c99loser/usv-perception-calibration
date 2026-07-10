@@ -1,0 +1,23 @@
+﻿{
+    "version":  1,
+    "skills":  {
+                   "qinyan-paper-search":  {
+                                               "source":  "leonchaox/qinyan-academic-skills",
+                                               "sourceType":  "github",
+                                               "skillPath":  "skills/娌佽█瀛︽湳skills/qinyan-paper-search/SKILL.md",
+                                               "computedHash":  "791aa203d0691813539101af52d6a4ffec712982d0802cff875444bb670b1ab7"
+                                           },
+                   "qinyan-topic-analysis":  {
+                                                 "source":  "leonchaox/qinyan-academic-skills",
+                                                 "sourceType":  "github",
+                                                 "skillPath":  "skills/娌佽█瀛︽湳skills/qinyan-topic-analysis/SKILL.md",
+                                                 "computedHash":  "f3404e1a01ba9132f99737c01e15a7c4a2debe40d526a9017a8d525db68e1a78"
+                                             },
+                   "ros2-engineering-skills":  {
+                                                   "source":  "LeoYeAI/openclaw-master-skills",
+                                                   "sourceType":  "github",
+                                                   "skillPath":  "skills/ros2-engineering-skills/SKILL.md",
+                                                   "computedHash":  "3f2544dc11a5d98a06d64290312d496916f2f9f8f53be3db83eb7001419f2018"
+                                               }
+               }
+}

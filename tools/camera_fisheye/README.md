@@ -76,3 +76,8 @@ Camera intrinsics prefer MCAP `CameraInfo`. If that is unavailable, the tools
 fall back to a 1280x720, 175 degree horizontal FOV estimate. The fallback is
 only a bootstrap for visual checking and should be replaced by calibrated
 parameters later.
+
+The detector training source of record is the original `image_raw` stream.
+Rectified frames are for visual/geometry QA and optional, versioned auxiliary
+training experiments only. Frames produced from fallback FOV intrinsics must
+not be used as annotation masters or geometric ground truth.

@@ -1,0 +1,10 @@
+{
+  "base_frame": "base_link",
+  "sensor_to_base": {
+    "front": [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
+  },
+  "bev_extent_m": 10.0,
+  "bev_resolution_m": 0.1,
+  "cluster_eps_m": 0.55,
+  "cluster_min_points": 4
+}

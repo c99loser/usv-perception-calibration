@@ -19,6 +19,16 @@ output/
 *.db3
 *.sqlite3
 
+# Calibration/training probes and generated preview artifacts
+.tmp_mcap_writer_probe/
+streaming_probe*/
+preflight_rgb/
+preflight_semantic/
+tmp/
+
+# Downloadable model weights; record their source/version in documentation instead
+*.pt
+
 # Reference documents kept local unless explicitly requested
 *.pdf
 

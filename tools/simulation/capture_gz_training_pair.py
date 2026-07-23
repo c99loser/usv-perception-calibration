@@ -38,20 +38,32 @@ def main() -> None:
     parser.add_argument("--timeout-seconds", type=float, default=10.0)
     args = parser.parse_args()
 
-    received: dict[str, Image] = {}
+    received: dict[str, dict[int, Image]] = {"rgb": {}, "labels": {}}
+    def receive(key: str):
+        def callback(message: Image) -> None:
+            bucket = received[key]
+            bucket[stamp_ns(message)] = message
+            # A short history tolerates subscription order without pairing
+            # frames from different simulation timestamps.
+            while len(bucket) > 20:
+                del bucket[min(bucket)]
+        return callback
     node = gzt.Node()
-    if not node.subscribe(Image, args.rgb_topic, lambda msg: received.setdefault("rgb", msg)):
+    if not node.subscribe(Image, args.rgb_topic, receive("rgb")):
         raise RuntimeError(f"could not subscribe to {args.rgb_topic}")
-    if not node.subscribe(Image, args.label_topic, lambda msg: received.setdefault("labels", msg)):
+    if not node.subscribe(Image, args.label_topic, receive("labels")):
         raise RuntimeError(f"could not subscribe to {args.label_topic}")
 
     deadline = time.monotonic() + args.timeout_seconds
-    while set(received) != {"rgb", "labels"} and time.monotonic() < deadline:
+    common: set[int] = set()
+    while not common and time.monotonic() < deadline:
+        common = set(received["rgb"]) & set(received["labels"])
         time.sleep(0.02)
-    if set(received) != {"rgb", "labels"}:
-        raise TimeoutError(f"missing streams: {sorted({'rgb', 'labels'} - set(received))}")
+    if not common:
+        raise TimeoutError("no equal RGB / label timestamp observed")
 
-    rgb, labels = received["rgb"], received["labels"]
+    selected_stamp = max(common)
+    rgb, labels = received["rgb"][selected_stamp], received["labels"][selected_stamp]
     if (rgb.width, rgb.height) != (labels.width, labels.height):
         raise ValueError("RGB and semantic label dimensions differ")
     rgb_pixels, label_pixels = as_rgb(rgb), as_rgb(labels)

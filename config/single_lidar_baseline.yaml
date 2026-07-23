@@ -1,0 +1,5 @@
+single_lidar_perception:
+  ros__parameters:
+    # This frame stays untouched: no TF lookup, no external calibration and no fusion.
+    input_topic: /wamv/sensors/lidars/forward_lidar_sensor/points
+    output_prefix: /perception/single_lidar

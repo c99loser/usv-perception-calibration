@@ -40,3 +40,6 @@ tmp/
 # OS metadata
 Thumbs.db
 Desktop.ini
+/.codex_pydeps/
+/output/
+/.tmp_test/

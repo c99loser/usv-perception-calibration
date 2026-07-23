@@ -1,0 +1,97 @@
+{
+  "raw_unrectified": true,
+  "image_encoding": "JPEG quality 95",
+  "frames_per_camera": 240,
+  "total_images": 1440,
+  "counts_by_camera_and_split": {
+    "back": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    },
+    "front": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    },
+    "left": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    },
+    "left2": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    },
+    "right": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    },
+    "right2": {
+      "test": 40,
+      "train": 160,
+      "val": 40
+    }
+  },
+  "deduplication": {
+    "exact": "SHA-256 of decoded raw pixels, scoped per camera",
+    "near_duplicate": "adjacent accepted frame MAD <= 0.25",
+    "rejections": {
+      "exact_duplicate": 0,
+      "near_duplicate": 0,
+      "decode_error": 0
+    }
+  },
+  "clip_plans": [
+    {
+      "bag": "rosbag2_2026_07_02-09_03_17",
+      "split": "train",
+      "clip_id": "train_rosbag2_2026_07_02-09_03_17_01",
+      "source_start_index_0based": 61,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    },
+    {
+      "bag": "rosbag2_2026_07_02-09_03_17",
+      "split": "train",
+      "clip_id": "train_rosbag2_2026_07_02-09_03_17_02",
+      "source_start_index_0based": 122,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    },
+    {
+      "bag": "rosbag2_2026_07_02-09_03_17",
+      "split": "train",
+      "clip_id": "train_rosbag2_2026_07_02-09_03_17_03",
+      "source_start_index_0based": 182,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    },
+    {
+      "bag": "rosbag2_2026_07_02-09_03_17",
+      "split": "train",
+      "clip_id": "train_rosbag2_2026_07_02-09_03_17_04",
+      "source_start_index_0based": 243,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    },
+    {
+      "bag": "rosbag2_2026_07_02-09_08_35",
+      "split": "val",
+      "clip_id": "val_rosbag2_2026_07_02-09_08_35_01",
+      "source_start_index_0based": 110,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    },
+    {
+      "bag": "rosbag2_2026_07_02-09_10_54",
+      "split": "test",
+      "clip_id": "test_rosbag2_2026_07_02-09_10_54_01",
+      "source_start_index_0based": 69,
+      "scan_count": 80,
+      "saved_per_camera": 40
+    }
+  ]
+}

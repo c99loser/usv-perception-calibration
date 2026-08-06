@@ -2,9 +2,9 @@
 
 [简体中文](README.zh-CN.md)
 
-A ROS 2 perception project for an autonomous USV berthing challenge. At this stage, the repository provides a reproducible point-cloud baseline, a runnable single-LiDAR ROS 2 node, raw-fisheye training-data and simulation-label tooling, and a fail-closed calibration gate: unvalidated calibration never enables fusion.
+A ROS 2 perception project for an autonomous USV berthing challenge. The repository provides a reproducible point-cloud baseline, a runnable single-LiDAR ROS 2 node, raw-fisheye training-data and simulation-label tooling, a three-bag detector acceptance workflow, and a fail-closed calibration gate: unvalidated calibration never enables fusion.
 
-The active direction is to train and validate object detection on six **raw fisheye images**, then advance LiDAR–camera self-calibration only from auditable natural-scene co-observations. See [当前进行路线.md](当前进行路线.md) for the detailed plan.
+The raw-fisheye detector has passed its formal three-bag holdout gate for all six cameras. The active direction is now auditable LiDAR–camera multi-frame candidate optimization from natural-scene co-observations; this remains distinct from accepting extrinsics or enabling fusion. See [当前进行路线.md](当前进行路线.md) for the detailed plan.
 
 ## Status
 
@@ -16,6 +16,8 @@ The active direction is to train and validate object detection on six **raw fish
 | Camera intrinsics and fisheye tools | Development version complete | Used for image-quality audit, auxiliary experiments, and training-data preparation; versions must be recorded. |
 | Natural-scene calibration gate | Baseline complete | Audits LiDAR natural clusters and association candidates but does not publish extrinsics. |
 | Raw-fisheye training-data pipeline | Complete | Temporal splitting, CVAT/COCO conversion, candidate evaluation, and lineage records. |
+| Six-camera raw-fisheye detector | Formal holdout passed | Frozen YOLO11n candidate, trained on two human-labelled bags and evaluated once on a disjoint third bag; every camera met the predeclared gate. |
+| Validated image candidate adapter | Complete | Only static `buoy`, `pillar`, and `block` detections with timestamp, camera, model version, and confidence may enter the association gate. |
 | Gazebo semantic training data | Collection tooling complete | RGB/semantic labels are restricted to offline training-data generation. |
 | LiDAR–camera extrinsics and pixel-level fusion | Incomplete / disabled | Extrinsic state remains `nominal_unverified` until every gate passes. |
 
@@ -35,7 +37,7 @@ The deployment domain for image detection is the original 1280×720 fisheye imag
 | `config/` | Default ROS 2 parameters. |
 | `tools/lidar/` | MCAP audit, deterministic replay, ROS 2 replay validation, and report summaries. |
 | `tools/camera_fisheye/` | Fisheye frame extraction, intrinsics export, correction, and MCAP validation. |
-| `tools/annotation/`, `tools/yolo/` | Annotation export, candidate validation, COCO/YOLO conversion, and evaluation. |
+| `tools/annotation/`, `tools/yolo/` | Annotation export, bag-lineage-safe CVAT/COCO/YOLO conversion, formal holdout configuration, and evaluation. |
 | `tools/controlled_calibration/` | Controlled capture, intrinsics, ICP, and quality gates; development validation only. |
 | `tools/simulation/` | Gazebo training worlds, semantic cameras, and RGB/label-pair collection. |
 | `tests/` | Tests for offline perception, single LiDAR, natural calibration, and annotation tooling. |
@@ -99,7 +101,7 @@ For ROS 2 validation on WSL, run [Ubantu/setup_perception_wsl.sh](Ubantu/setup_p
 ## Training and calibration workflow
 
 1. Create datasets split by bag and time segment to prevent adjacent-frame leakage.
-2. Train or fine-tune raw-fisheye detection using manual annotations and simulation semantic images; report metrics per camera.
+2. Maintain the frozen raw-fisheye detector and its three-bag lineage; any new model must repeat bag-disjoint, per-camera holdout validation.
 3. Feed only validated static image observations and stable LiDAR clusters into the association gate.
 4. Allow extrinsics to become `accepted` only after multi-frame, holdout-frame, observability, and stability gates pass.
 5. Enable pixel-level LiDAR–camera fusion only for `accepted`; otherwise keep independent-sensor perception.
@@ -116,4 +118,4 @@ Controlled checkerboards, ICP, simulator-truth projection, and HSV/contour propo
 
 ## Next stage
 
-First complete auditable manual annotations and independent bag-level evaluation for all six raw fisheye cameras, then train a detector that passes the per-camera gates. Only then proceed to natural-object 2D–3D multi-frame optimization. Simulation execution or visible single-sensor results do not substitute for calibration acceptance.
+The detector's independent three-bag, six-camera acceptance gate is complete. Next, perform natural-object 2D–3D multi-frame candidate optimization with stable LiDAR clusters, timestamp checks, at least three observable sensor pairs, robust holdout validation, and the calibration-state contract. Simulation execution, a detector pass, or visible single-sensor results do not substitute for calibration acceptance.

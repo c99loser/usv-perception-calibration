@@ -1,0 +1,61 @@
+{
+  "classes": [
+    {
+      "title": "pillar",
+      "shape": "cuboid_3d",
+      "color": "#FF6347"
+    },
+    {
+      "title": "buoy",
+      "shape": "cuboid_3d",
+      "color": "#00DCB4"
+    },
+    {
+      "title": "block",
+      "shape": "cuboid_3d",
+      "color": "#FFC43D"
+    },
+    {
+      "title": "boat",
+      "shape": "cuboid_3d",
+      "color": "#5FA5FF"
+    },
+    {
+      "title": "background",
+      "shape": "cuboid_3d",
+      "color": "#808B96"
+    },
+    {
+      "title": "ambiguous",
+      "shape": "cuboid_3d",
+      "color": "#E16EFF"
+    }
+  ],
+  "tags": [
+    {
+      "name": "static_for_calibration",
+      "value_type": "oneof_string",
+      "color": "#18A999",
+      "values": [
+        "yes",
+        "no",
+        "uncertain"
+      ],
+      "applicable_type": "objectsOnly",
+      "target_type": "entitiesOnly"
+    },
+    {
+      "name": "reviewer_confidence",
+      "value_type": "oneof_string",
+      "color": "#7B61FF",
+      "values": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "applicable_type": "objectsOnly",
+      "target_type": "entitiesOnly"
+    }
+  ],
+  "projectType": "point_cloud_episode"
+}

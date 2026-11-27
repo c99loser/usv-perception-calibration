@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+  大型WAMV (14m×5m) 主入口URDF
+  使用方法: xacro wamv_large.urdf.xacro > wamv_large.urdf
+  
+  与原版 wamv.urdf.xacro 的区别:
+  - base: wamv_large_base.urdf.xacro (缩放mesh+collision)
+  - gazebo: wamv_large_gazebo.urdf.xacro (缩放传感器+推进器+水动力)
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wamv-large">
+
+  <xacro:include filename="$(find wamv_description)/urdf/wamv_large_base.urdf.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/wamv_large_gazebo.urdf.xacro" />
+
+</robot>

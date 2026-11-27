@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find wamv_gazebo)/urdf/components/wamv_3d_lidar.xacro"/>
+  <xacro:macro name="lidar"
+               params = "type:='16_beam'
+                         name
+                         x:=0.7 y:=0 z:=1.8
+                         R:=0 P:=0 Y:=0
+                         post_Y:=0 post_z_from:=1.2965">
+    <xacro:if value="${type == '16_beam'}">
+      <xacro:wamv_3d_lidar name="${name}"
+                           x="${x}" y="${y}" z="${z}"
+                           R="${R}" P="${P}" Y="${Y}"
+                           post_Y="${post_Y}" post_z_from="${post_z_from}"
+                           vertical_lasers="16"/>
+      <!--specs for 16 beam lidar are implemented by default.
+          See wamv_3d_lidar for those-->
+    </xacro:if>
+    <xacro:if value="${type == '32_beam'}">
+      <xacro:wamv_3d_lidar name="${name}"
+                           x="${x}" y="${y}" z="${z}"
+                           R="${R}" P="${P}" Y="${Y}"
+                           post_Y="${post_Y}" post_z_from="${post_z_from}"
+                           vertical_lasers="32"
+                           samples="2187"
+                           min_vertical_angle="-0.186"
+                           max_vertical_angle="0.54"/>
+    </xacro:if>
+    <xacro:if value="${type == 'mid360'}">
+      <xacro:wamv_3d_lidar name="${name}"
+                           x="${x}" y="${y}" z="${z}"
+                           R="${R}" P="${P}" Y="${Y}"
+                           post_Y="${post_Y}" post_z_from="${post_z_from}"
+                           update_rate="10"
+                           vertical_lasers="8"
+                           samples="360"
+                           resolution="1"
+                           min_angle="${-pi}" max_angle="${pi}"
+                           min_vertical_angle="${radians(-22)}" max_vertical_angle="${radians(37)}"
+                           max_range="40"
+                           noise_stddev="0.02"/>
+    </xacro:if>
+    <xacro:if value="${type == 'emx'}">
+      <!-- RoboSense EMX: 96线, ±7.5°垂直(15°跨度), 120°水平, 200m, 10Hz, 前向长距 -->
+      <xacro:wamv_3d_lidar name="${name}"
+                           x="${x}" y="${y}" z="${z}"
+                           R="${R}" P="${P}" Y="${Y}"
+                           post_Y="${post_Y}" post_z_from="${post_z_from}"
+                           update_rate="10"
+                           vertical_lasers="96"
+                           samples="360"
+                           resolution="1"
+                           min_angle="${radians(-60)}" max_angle="${radians(60)}"
+                           min_vertical_angle="${radians(-7.5)}" max_vertical_angle="${radians(7.5)}"
+                           max_range="200"
+                           noise_stddev="0.02"
+                           visual_type="emx"/>
+    </xacro:if>
+    <xacro:if value="${type == 'airy'}">
+      <xacro:wamv_3d_lidar name="${name}"
+                           x="${x}" y="${y}" z="${z}"
+                           R="${R}" P="${P}" Y="${Y}"
+                           post_Y="${post_Y}" post_z_from="${post_z_from}"
+                           update_rate="10"
+                           vertical_lasers="48"
+                           samples="360"
+                           resolution="1"
+                           min_angle="${-pi}" max_angle="${pi}"
+                           min_vertical_angle="${radians(0)}" max_vertical_angle="${radians(90)}"
+                           max_range="60"
+                           noise_stddev="0.02"
+                           visual_type="airy"/>
+    </xacro:if>
+  </xacro:macro>
+</robot>

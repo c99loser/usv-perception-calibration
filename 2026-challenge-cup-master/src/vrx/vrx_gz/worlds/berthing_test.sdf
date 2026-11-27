@@ -1,0 +1,421 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="berthing_test">
+
+    <physics name="4ms" type="dart">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui><title>USV Competition</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property></gz-gui>
+        <engine>ogre2</engine><scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.5 0.7 1.0</background_color>
+        <camera_pose>-620 250 80 0 0.7 -1.6</camera_pose>
+        <camera_clip><near>0.25</near><far>10000</far></camera_clip>
+      </plugin>
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu"/>
+      <plugin filename="GzSceneManager" name="Scene Manager"/>
+      <plugin filename="InteractiveViewControl" name="Interactive view control"/>
+      <plugin filename="CameraTracking" name="Camera Tracking"/>
+      <plugin filename="MarkerManager" name="Marker manager"/>
+      <plugin filename="Spawn" name="Spawn Entities"/>
+      <plugin filename="WorldControl" name="World control"/>
+      <plugin filename="WorldStats" name="World stats"/>
+      <plugin filename="TransformControl" name="Transform control"/>
+    </gui>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+
+    <scene><grid>false</grid><ambient>0.8 0.9 1.0</ambient><background>0.5 0.7 1.0</background></scene>
+
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model><world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>-33.724223</latitude_deg><longitude_deg>150.679736</longitude_deg>
+      <elevation>0.0</elevation><heading_deg>0.0</heading_deg>
+    </spherical_coordinates>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows><pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse><specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <include><pose>0 0 0.2 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/sydney_regatta</uri></include>
+    <include><name>Coast Waves</name><pose>0 0 0 0 0 0</pose><uri>coast_waves</uri></include>
+
+    <!-- 浮台泊位 -->
+    <include><pose>-533 162 0.3 0 0 -1.658</pose><uri>dock_2022</uri></include>
+    <include><name>berth_sign</name><pose>-523 192 1.8 0 0 -1.5708</pose><uri>placard_2022</uri></include>
+
+    <!-- ====== 坐标大柱子 (X列不同色, 高10m) ====== -->
+    <!-- X: -740红 -700绿 -660蓝 -620黄 -580青 -540紫 -500橙 -->
+    <model name="grid_X-740_Y140"><static>true</static><pose>-740 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y180"><static>true</static><pose>-740 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y220"><static>true</static><pose>-740 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y260"><static>true</static><pose>-740 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y300"><static>true</static><pose>-740 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y340"><static>true</static><pose>-740 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-740_Y380"><static>true</static><pose>-740 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y140"><static>true</static><pose>-700 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y180"><static>true</static><pose>-700 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y220"><static>true</static><pose>-700 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y260"><static>true</static><pose>-700 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y300"><static>true</static><pose>-700 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y340"><static>true</static><pose>-700 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-700_Y380"><static>true</static><pose>-700 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y140"><static>true</static><pose>-660 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y180"><static>true</static><pose>-660 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y220"><static>true</static><pose>-660 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y260"><static>true</static><pose>-660 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y300"><static>true</static><pose>-660 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y340"><static>true</static><pose>-660 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-660_Y380"><static>true</static><pose>-660 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 0 1 1</ambient><diffuse>0 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y140"><static>true</static><pose>-620 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y180"><static>true</static><pose>-620 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y220"><static>true</static><pose>-620 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y260"><static>true</static><pose>-620 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y300"><static>true</static><pose>-620 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y340"><static>true</static><pose>-620 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-620_Y380"><static>true</static><pose>-620 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y140"><static>true</static><pose>-580 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y180"><static>true</static><pose>-580 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y220"><static>true</static><pose>-580 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y260"><static>true</static><pose>-580 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y300"><static>true</static><pose>-580 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y340"><static>true</static><pose>-580 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-580_Y380"><static>true</static><pose>-580 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>0 1 1 1</ambient><diffuse>0 1 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y140"><static>true</static><pose>-540 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y180"><static>true</static><pose>-540 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y220"><static>true</static><pose>-540 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y260"><static>true</static><pose>-540 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y300"><static>true</static><pose>-540 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y340"><static>true</static><pose>-540 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-540_Y380"><static>true</static><pose>-540 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0 1 1</ambient><diffuse>1 0 1 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y140"><static>true</static><pose>-500 140 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y180"><static>true</static><pose>-500 180 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y220"><static>true</static><pose>-500 220 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y260"><static>true</static><pose>-500 260 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y300"><static>true</static><pose>-500 300 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y340"><static>true</static><pose>-500 340 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <model name="grid_X-500_Y380"><static>true</static><pose>-500 380 5 0 0 0</pose>
+      <link name="pole"><visual name="v_pole"><geometry><cylinder><radius>0.4</radius><length>10</length></cylinder></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual>
+        <visual name="v_top"><pose>0 0 5.5 0 0 0</pose><geometry><sphere><radius>0.8</radius></sphere></geometry>
+        <material><ambient>1 0.5 0 1</ambient><diffuse>1 0.5 0 1</diffuse></material></visual></link></model>
+    <!-- ====== 浮标: 起航区 (WAM-V周围, ~[-710,350]) ====== -->
+    <include><name>b_start_0</name><pose>-710 375 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_start_1</name><pose>-690 370 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_start_2</name><pose>-735 360 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_white</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_start_3</name><pose>-685 340 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_round_buoy_orange</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>75</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 0 0 0 0</pose><geometry><sphere><radius>0.21</radius></sphere></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_start_4</name><pose>-700 320 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_round_buoy_black</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>75</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 0 0 0 0</pose><geometry><sphere><radius>0.21</radius></sphere></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_start_5</name><pose>-728 335 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+
+    <!-- ====== 浮标: 航道中段 ====== -->
+    <include><name>b_mid_0</name><pose>-660 310 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_mid_1</name><pose>-635 280 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_mid_2</name><pose>-610 250 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_white</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_mid_3</name><pose>-585 220 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_round_buoy_orange</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>75</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 0 0 0 0</pose><geometry><sphere><radius>0.21</radius></sphere></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+
+    <!-- ====== 浮标: 近港区 ====== -->
+    <include><name>b_dock_0</name><pose>-555 195 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_dock_1</name><pose>-540 185 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+    <include><name>b_dock_2</name><pose>-510 178 0 0 0 0</pose><uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level><linear_drag>25</linear_drag><angular_drag>2</angular_drag>
+        <buoyancy><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose><geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield></plugin></include>
+
+    <!-- ====== 障碍船: 起航区 ====== -->
+    <include><name>boat1</name><pose>-690 360 0.2 0 0 0.5</pose><uri>roboboat01</uri></include>
+    <include><name>boat2</name><pose>-720 335 0.2 0 0 -0.5</pose><uri>roboboat02</uri></include>
+
+    <!-- ====== 障碍船: 航道中段 ====== -->
+    <include><name>boat3</name><pose>-650 295 0.2 0 0 0.8</pose><uri>roboboat01</uri></include>
+    <include><name>boat4</name><pose>-600 240 0.2 0 0 -0.8</pose><uri>roboboat02</uri></include>
+
+    <!-- ====== 障碍船: 近港区 ====== -->
+    <include><name>boat5</name><pose>-560 200 0.2 0 0 0</pose><uri>roboboat01</uri></include>
+    <include><name>boat6</name><pose>-520 190 0.2 0 0 2.0</pose><uri>roboboat02</uri></include>
+
+    <!-- 微风 -->
+    <plugin filename="libUSVWind.so" name="vrx::USVWind">
+      <wind_obj><name>wamv</name><link_name>wamv/base_link</link_name><coeff_vector>.5 .5 .33</coeff_vector></wind_obj>
+      <wind_direction>240</wind_direction><wind_mean_velocity>0.0</wind_mean_velocity>
+      <var_wind_gain_constants>0</var_wind_gain_constants>
+      <var_wind_time_constants>2</var_wind_time_constants><update_rate>10</update_rate>
+    </plugin>
+
+    <!-- 海浪 -->
+    <plugin filename="libPublisherPlugin.so" name="vrx::PublisherPlugin">
+      <message type="gz.msgs.Param" topic="/vrx/wavefield/parameters" every="2.0">
+        params { key: "direction" value { type: DOUBLE double_value: 0.0 } }
+        params { key: "gain" value { type: DOUBLE double_value: 0.15 } }
+        params { key: "period" value { type: DOUBLE double_value: 5 } }
+        params { key: "steepness" value { type: DOUBLE double_value: 0 } }
+      </message>
+    </plugin>
+
+    <!-- 水面碰撞平面 (LiDAR可探测水面+浮标) -->
+    <model name="water_collision_plane">
+      <static>true</static>
+      <link name="surface">
+        <collision name="water_col">
+          <geometry><plane><normal>0 0 1</normal><size>600 600</size></plane></geometry>
+          <surface><friction><ode><mu>0</mu><mu2>0</mu2></ode></friction></surface>
+        </collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>

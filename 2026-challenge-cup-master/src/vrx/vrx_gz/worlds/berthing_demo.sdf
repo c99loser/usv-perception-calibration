@@ -1,0 +1,191 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="berthing_demo">
+    <physics name="4ms" type="dart">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>USV Berthing Demo</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.5 0.7 1.0</background_color>
+        <camera_pose>-520 185 25 0 0.6 2.9</camera_pose>
+        <camera_clip><near>0.25</near><far>10000</far></camera_clip>
+      </plugin>
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu"/>
+      <plugin filename="GzSceneManager" name="Scene Manager"/>
+      <plugin filename="InteractiveViewControl" name="Interactive view control"/>
+      <plugin filename="CameraTracking" name="Camera Tracking"/>
+      <plugin filename="MarkerManager" name="Marker manager"/>
+      <plugin filename="Spawn" name="Spawn Entities"/>
+      <plugin filename="WorldControl" name="World control"/>
+      <plugin filename="WorldStats" name="World stats"/>
+      <plugin filename="TransformControl" name="Transform control"/>
+      <plugin filename="Screenshot" name="Screenshot"/>
+    </gui>
+
+    <!-- 物理与传感器 -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    <plugin filename="gz-sim-magnetometer-system" name="gz::sim::systems::Magnetometer"/>
+    <plugin filename="gz-sim-force-torque-system" name="gz::sim::systems::ForceTorque"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <plugin filename="gz-sim-navsat-system" name="gz::sim::systems::NavSat"/>
+
+    <scene>
+      <grid>false</grid>
+      <ambient>0.8 0.9 1.0</ambient>
+      <background>0.5 0.7 1.0</background>
+    </scene>
+
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>-33.724223</latitude_deg>
+      <longitude_deg>150.679736</longitude_deg>
+      <elevation>0.0</elevation>
+      <heading_deg>0.0</heading_deg>
+    </spherical_coordinates>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- 海域模型 -->
+    <include>
+      <pose>0 0 0.2 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/sydney_regatta</uri>
+    </include>
+    <include>
+      <name>Coast Waves</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>coast_waves</uri>
+    </include>
+
+    <!-- ============================================ -->
+    <!-- 码头: dock_2022 放置在岸边 [-525, 205]        -->
+    <!-- ============================================ -->
+    <include>
+      <name>berth_dock</name>
+      <pose>-525 205 0.3 0 0 1.57</pose>   <!-- 旋转使泊位开口朝南 -->
+      <uri>dock_2022</uri>
+    </include>
+
+    <!-- ============================================ -->
+    <!-- 障碍浮标: 围绕泊位前方散布，留出中间通道       -->
+    <!-- ============================================ -->
+    <!-- 左侧障碍 -->
+    <include>
+      <name>buoy_left_1</name>
+      <pose>-545 195 0 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level>
+        <linear_drag>25.0</linear_drag><angular_drag>2.0</angular_drag>
+        <buoyancy name="collision"><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+      </plugin>
+    </include>
+    <include>
+      <name>buoy_left_2</name>
+      <pose>-540 190 0 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_red</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level>
+        <linear_drag>25.0</linear_drag><angular_drag>2.0</angular_drag>
+        <buoyancy name="collision"><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+      </plugin>
+    </include>
+
+    <!-- 右侧障碍 -->
+    <include>
+      <name>buoy_right_1</name>
+      <pose>-505 195 0 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level>
+        <linear_drag>25.0</linear_drag><angular_drag>2.0</angular_drag>
+        <buoyancy name="collision"><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+      </plugin>
+    </include>
+    <include>
+      <name>buoy_right_2</name>
+      <pose>-510 190 0 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/mb_marker_buoy_green</uri>
+      <plugin name="vrx::PolyhedraBuoyancyDrag" filename="libPolyhedraBuoyancyDrag.so">
+        <fluid_density>1000</fluid_density><fluid_level>0.0</fluid_level>
+        <linear_drag>25.0</linear_drag><angular_drag>2.0</angular_drag>
+        <buoyancy name="collision"><link_name>link</link_name><pose>0 0 -0.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.325</radius><length>0.1</length></cylinder></geometry></buoyancy>
+        <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+      </plugin>
+    </include>
+
+    <!-- ============================================ -->
+    <!-- 障碍船只: 泊位入口两旁停泊的船                -->
+    <!-- ============================================ -->
+    <include>
+      <name>obstacle_boat_left</name>
+      <pose>-535 200 0.2 0 0 0.3</pose>
+      <uri>roboboat01</uri>
+    </include>
+    <include>
+      <name>obstacle_boat_right</name>
+      <pose>-515 200 0.2 0 0 0.3</pose>
+      <uri>roboboat02</uri>
+    </include>
+
+    <!-- ============================================ -->
+    <!-- 泊位标志牌: 放在码头上方                       -->
+    <!-- ============================================ -->
+    <include>
+      <name>berth_sign</name>
+      <pose>-525 207 1.8 0 0 1.57</pose>
+      <uri>placard_2022</uri>
+    </include>
+
+    <!-- 微风 -->
+    <plugin filename="libUSVWind.so" name="vrx::USVWind">
+      <wind_obj><name>wamv</name><link_name>wamv/base_link</link_name>
+        <coeff_vector>.5 .5 .33</coeff_vector></wind_obj>
+      <wind_direction>240</wind_direction>
+      <wind_mean_velocity>0.0</wind_mean_velocity>
+      <var_wind_gain_constants>0</var_wind_gain_constants>
+      <var_wind_time_constants>2</var_wind_time_constants>
+      <update_rate>10</update_rate>
+    </plugin>
+
+    <!-- 轻微海浪 -->
+    <plugin filename="libPublisherPlugin.so" name="vrx::PublisherPlugin">
+      <message type="gz.msgs.Param" topic="/vrx/wavefield/parameters" every="2.0">
+        params { key: "direction" value { type: DOUBLE double_value: 0.0 } }
+        params { key: "gain" value { type: DOUBLE double_value: 0.15 } }
+        params { key: "period" value { type: DOUBLE double_value: 5 } }
+        params { key: "steepness" value { type: DOUBLE double_value: 0 } }
+      </message>
+    </plugin>
+
+  </world>
+</sdf>

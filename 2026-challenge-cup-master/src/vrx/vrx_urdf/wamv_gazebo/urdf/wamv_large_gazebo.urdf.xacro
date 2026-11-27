@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--
+    大型WAMV gazebo配置 (14m×5m)
+    传感器位置按 SX=2.857 SY=2.033 SZ=2.0 缩放
+    新建文件, 不修改原 wamv_gazebo.urdf.xacro
+  -->
+  <xacro:property name="SX" value="2.857" />
+  <xacro:property name="SY" value="2.033" />
+  <xacro:property name="SZ" value="1.3" />
+
+  <!-- ====== 推进器 (位置按比例放大) ====== -->
+  <xacro:include filename="$(find wamv_description)/urdf/thrusters/engine.xacro" />
+  <!-- 原版 aft: left(-2.37, 1.03, 0.32) right(-2.37, -1.03, 0.32) -->
+  <xacro:engine prefix="left"  position="${-2.373776*SX} ${1.027135*SY} ${0.318237*SZ}" />
+  <xacro:engine prefix="right" position="${-2.373776*SX} ${-1.027135*SY} ${0.318237*SZ}" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/thruster_layouts/wamv_gazebo_thruster_config.xacro" />
+  <xacro:wamv_gazebo_thruster_config name="left" />
+  <xacro:wamv_gazebo_thruster_config name="right" />
+
+  <!-- ====== 水动力 (hull参数缩放) ====== -->
+  <gazebo>
+    <!-- Left hull (14m × 0.426m radius) -->
+    <plugin filename="libSurface.so" name="vrx::Surface">
+      <link_name>${namespace}/base_link</link_name>
+      <hull_length>14.0</hull_length>
+      <hull_radius>0.426</hull_radius>
+      <fluid_level>0</fluid_level>
+      <points>
+        <point>${0.6*SX} ${1.03*SY} 0</point>
+        <point>${-1.4*SX} ${1.03*SY} 0</point>
+      </points>
+      <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+    </plugin>
+    <!-- Right hull -->
+    <plugin filename="libSurface.so" name="vrx::Surface">
+      <link_name>${namespace}/base_link</link_name>
+      <hull_length>14.0</hull_length>
+      <hull_radius>0.426</hull_radius>
+      <fluid_level>0</fluid_level>
+      <points>
+        <point>${0.6*SX} ${-1.03*SY} 0</point>
+        <point>${-1.4*SX} ${-1.03*SY} 0</point>
+      </points>
+      <wavefield><topic>/vrx/wavefield/parameters</topic></wavefield>
+    </plugin>
+    <!-- Hydrodynamics (阻力按面积比例增大) -->
+    <plugin filename="libSimpleHydrodynamics.so" name="vrx::SimpleHydrodynamics">
+      <link_name>${namespace}/base_link</link_name>
+      <xDotU>0.0</xDotU><yDotV>0.0</yDotV><nDotR>0.0</nDotR>
+      <xU>800.0</xU><xUU>1200.0</xUU>
+      <yV>800.0</yV><yVV>800.0</yVV>
+      <zW>4000.0</zW><kP>2400.0</kP><kPP>4800.0</kPP>
+      <mQ>7200.0</mQ><mQQ>7200.0</mQQ>
+      <nR>6400.0</nR><nRR>6400.0</nRR>
+    </plugin>
+  </gazebo>
+
+  <!-- ====== 传感器配置 ====== -->
+  <!-- 甲板面高度 ≈ 1.0*SZ = 2.0m (原版甲板约1m, 缩放×2) -->
+  <!-- 传感器柱子从甲板面升起, 传感器安装在柱子顶部 -->
+
+  <xacro:property name="DECK_Z" value="${0.6*SZ}" />  <!-- 甲板面高度 -->
+  <xacro:property name="MAST_Z" value="${1.5*SZ}" />  <!-- 柱子顶部传感器高度 -->
+  <!-- 船长14m, X范围约-7~+7, 甲板占4/5(约11.2m, X范围-5.6~+5.6) -->
+  <!-- 船头1/5处: X = 7 - 14/5 = 7 - 2.8 = 4.2 -->
+  <!-- 船尾1/5处: X = -7 + 14/5 = -7 + 2.8 = -4.2 -->
+  <!-- 侧边1/3和2/3处: 相对甲板范围(-5.6~+5.6) -->
+  <xacro:property name="BOW_X" value="7" />      <!-- 船头1/5位置(前移避开柱子遮挡) -->
+  <xacro:property name="STERN_X" value="-7" />   <!-- 船尾1/5位置(后移避开柱子遮挡) -->
+  <xacro:property name="SIDE_X1" value="-6" />   <!-- 甲板1/3处 -->
+  <xacro:property name="SIDE_X2" value="6" />    <!-- 甲板2/3处 -->
+
+
+  <!-- 俯视相机: 正上方, 朝下90°, 无柱子 -->
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="overhead_camera_sensor" type="camera">
+      <pose>0 0 ${MAST_Z+10} 0 1.5708 0</pose>
+      <update_rate>5.0</update_rate>
+      <camera>
+        <horizontal_fov>2.094</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>1280</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.5</near>
+          <far>500</far>
+        </clip>
+      </camera>
+    </sensor>
+  </gazebo>
+
+  <!-- 6鱼眼相机 (无柱子, gazebo标签) -->
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="front_camera_sensor" type="wide_angle_camera">
+      <pose>${BOW_X} 0 ${MAST_Z} 0 ${radians(25)} 0</pose>
+      <update_rate>5.0</update_rate>
+      <camera>
+        <horizontal_fov>3.054</horizontal_fov>
+        <image><width>1280</width><height>720</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>200</far></clip>
+        <lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens>
+      </camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="back_camera_sensor" type="wide_angle_camera">
+      <pose>${STERN_X} 0 ${MAST_Z} 0 ${radians(25)} ${radians(180)}</pose>
+      <update_rate>5.0</update_rate>
+      <camera><horizontal_fov>3.054</horizontal_fov><image><width>1280</width><height>720</height><format>R8G8B8</format></image><clip><near>0.05</near><far>200</far></clip><lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens></camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="left_camera_sensor" type="wide_angle_camera">
+      <pose>${SIDE_X1} ${0.8*SY} ${MAST_Z} 0 ${radians(25)} ${radians(90)}</pose>
+      <update_rate>5.0</update_rate>
+      <camera><horizontal_fov>3.054</horizontal_fov><image><width>1280</width><height>720</height><format>R8G8B8</format></image><clip><near>0.05</near><far>200</far></clip><lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens></camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="left2_camera_sensor" type="wide_angle_camera">
+      <pose>${SIDE_X2} ${0.8*SY} ${MAST_Z} 0 ${radians(25)} ${radians(90)}</pose>
+      <update_rate>5.0</update_rate>
+      <camera><horizontal_fov>3.054</horizontal_fov><image><width>1280</width><height>720</height><format>R8G8B8</format></image><clip><near>0.05</near><far>200</far></clip><lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens></camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="right_camera_sensor" type="wide_angle_camera">
+      <pose>${SIDE_X1} ${-0.8*SY} ${MAST_Z} 0 ${radians(25)} ${radians(-90)}</pose>
+      <update_rate>5.0</update_rate>
+      <camera><horizontal_fov>3.054</horizontal_fov><image><width>1280</width><height>720</height><format>R8G8B8</format></image><clip><near>0.05</near><far>200</far></clip><lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens></camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="${namespace}/base_link">
+    <sensor name="right2_camera_sensor" type="wide_angle_camera">
+      <pose>${SIDE_X2} ${-0.8*SY} ${MAST_Z} 0 ${radians(25)} ${radians(-90)}</pose>
+      <update_rate>5.0</update_rate>
+      <camera><horizontal_fov>3.054</horizontal_fov><image><width>1280</width><height>720</height><format>R8G8B8</format></image><clip><near>0.05</near><far>200</far></clip><lens><type>custom</type><custom_function><c1>1.05</c1><c2>4</c2><f>1.0</f><fun>tan</fun></custom_function><scale_to_hfov>true</scale_to_hfov><env_texture_size>2048</env_texture_size></lens></camera>
+    </sensor>
+  </gazebo>
+
+  <!-- 6 Airy LiDAR (xacro宏, 有柱子模型) -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/components/lidar.xacro" />
+  <xacro:lidar name="front_lidar"   type="airy" x="${BOW_X}"    y="0"           z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(0)}"    post_Y="${radians(0)}" />
+  <xacro:lidar name="back_lidar"    type="airy" x="${STERN_X}"  y="0"           z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(180)}" post_Y="${radians(180)}" />
+  <xacro:lidar name="left_lidar"    type="airy" x="${SIDE_X1}"  y="${0.8*SY}"   z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(90)}"  post_Y="${radians(90)}" />
+  <xacro:lidar name="left2_lidar"   type="airy" x="${SIDE_X2}"  y="${0.8*SY}"   z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(90)}"  post_Y="${radians(90)}" />
+  <xacro:lidar name="right_lidar"   type="airy" x="${SIDE_X1}"  y="${-0.8*SY}"  z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(-90)}" post_Y="${radians(-90)}" />
+  <xacro:lidar name="right2_lidar"  type="airy" x="${SIDE_X2}"  y="${-0.8*SY}"  z="${MAST_Z-0.1}" P="${radians(115)}" Y="${radians(-90)}" post_Y="${radians(-90)}" />
+  <xacro:lidar name="forward_lidar" type="emx"  x="${BOW_X}"    y="0"           z="${DECK_Z+0.8}" P="${radians(0)}" />
+
+  <!-- PosePublisher + OdometryPublisher (从小船复制, 大船缺少) -->
+  <gazebo>
+    <plugin filename="libgz-sim-pose-publisher-system.so"
+      name="gz::sim::systems::PosePublisher">
+      <publish_link_pose>false</publish_link_pose>
+      <publish_sensor_pose>true</publish_sensor_pose>
+      <publish_collision_pose>false</publish_collision_pose>
+      <publish_visual_pose>false</publish_visual_pose>
+      <publish_nested_model_pose>false</publish_nested_model_pose>
+      <publish_model_pose>false</publish_model_pose>
+      <use_pose_vector_msg>true</use_pose_vector_msg>
+      <static_publisher>false</static_publisher>
+      <static_update_frequency>1</static_update_frequency>
+    </plugin>
+    <plugin filename="libgz-sim-odometry-publisher-system.so"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_topic>/model/wamv/odometry</odom_topic>
+      <odom_frame>wamv/odom</odom_frame>
+      <robot_base_frame>wamv/base_link</robot_base_frame>
+      <odom_publish_frequency>10</odom_publish_frequency>
+    </plugin>
+  </gazebo>
+
+</robot>

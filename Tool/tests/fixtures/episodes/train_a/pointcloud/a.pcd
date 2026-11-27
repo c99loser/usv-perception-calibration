@@ -1,0 +1,16 @@
+# GUI smoke-test point cloud
+VERSION .7
+FIELDS x y z
+SIZE 4 4 4
+TYPE F F F
+COUNT 1 1 1
+WIDTH 5
+HEIGHT 1
+POINTS 5
+DATA ascii
+-1 -1 0
+1 -1 0
+-1 1 0
+1 1 0
+0 0 0
+

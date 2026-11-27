@@ -1,0 +1,79 @@
+{
+  "schema": "real-lidar-annotation-pack-build-spec/v1",
+  "description": "Track-aware three-pair L5 annotation pack. Training and threshold selection use only 090317/090835; 091054 is final-evaluation-only.",
+  "max_items_per_source": 80,
+  "max_per_track": 4,
+  "sources": [
+    {
+      "id": "train_090317_front_start64",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_front_start64_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_front_start64_v4_11_calibration_kinematic_blind_v62.json"
+    },
+    {
+      "id": "train_090835_front_start64",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_front_start64_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_front_start64_v4_11_calibration_kinematic_blind_v62.json"
+    },
+    {
+      "id": "train_090317_back_start0",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_back_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_back_v4_11_calibration_kinematic_blind_v64.json"
+    },
+    {
+      "id": "train_090835_back_start0",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_back_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_back_v4_11_calibration_kinematic_blind_v64.json"
+    },
+    {
+      "id": "train_090317_left_start0",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_left_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090317_left_v4_11_calibration_kinematic_blind_v64.json"
+    },
+    {
+      "id": "train_090835_left_start64",
+      "split": "train",
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_left_start64_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/090835_left_start64_v4_11_calibration_kinematic_blind_v67.json"
+    },
+    {
+      "id": "holdout_091054_front_start0",
+      "split": "holdout",
+      "max_per_track": 12,
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_start0_v4_annotation_raw_v70.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_v4_11_calibration_kinematic_dev_v61.json"
+    },
+    {
+      "id": "holdout_091054_front_start64",
+      "split": "holdout",
+      "max_per_track": 12,
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_start64_v4_annotation_raw_v70.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_start64_v4_11_calibration_kinematic_dev_v61.json"
+    },
+    {
+      "id": "holdout_091054_front_start128",
+      "split": "holdout",
+      "max_per_track": 12,
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_start128_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_front_start128_v4_11_calibration_kinematic_dev_v61.json"
+    },
+    {
+      "id": "holdout_091054_back_start0",
+      "split": "holdout",
+      "max_per_track": 12,
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_back_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_back_v4_11_annotation_tracked_v69.json"
+    },
+    {
+      "id": "holdout_091054_left_start0",
+      "split": "holdout",
+      "max_per_track": 12,
+      "raw_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_left_v4_annotation_raw_v68.json",
+      "tracked_observations": "/mnt/f/Challenger program/output/natural_scene_calibration/091054_left_v4_11_annotation_tracked_v69.json"
+    }
+  ]
+}

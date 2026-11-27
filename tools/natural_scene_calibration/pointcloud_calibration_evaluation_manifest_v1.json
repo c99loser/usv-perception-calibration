@@ -1,0 +1,100 @@
+{
+  "schema": "pointcloud-calibration-evaluation-manifest/v1",
+  "description": "V4.11 three-pair geometry suite. All required blind windows were opened with frozen spatial, tracking, and quality thresholds; the rejected left start0 window remains diagnostic-only and was replaced by a predeclared non-overlapping start64 window without parameter changes.",
+  "thresholds": {
+    "min_frames": 48,
+    "max_sync_p95_ms": 50.0,
+    "max_near_fraction": 0.02,
+    "max_large_fraction": 0.10,
+    "max_very_large_fraction": 0.0,
+    "min_persistent_tracks": 3,
+    "min_persistent_observations": 40,
+    "min_persistent_coverage": 0.80,
+    "min_track_occupancy": 0.70,
+    "max_reference_extent_jitter_m": 0.02,
+    "max_center_standard_error_p95_m": 0.15,
+    "max_center_acceleration_p95_m_per_frame2": 0.50,
+    "min_bearing_span_deg": 20.0,
+    "min_elevation_span_deg": 3.0,
+    "min_range_span_m": 3.0,
+    "min_se3_information_rank": 6,
+    "max_se3_condition_number": 1000.0,
+    "min_distinct_bags": 2,
+    "min_ready_pairs": 3,
+    "min_real_semantic_precision": 0.90,
+    "min_real_semantic_recall": 0.70,
+    "min_real_semantic_matches": 20
+  },
+  "windows": [
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090317_front_v4_11_calibration_kinematic_dev_v61.json",
+      "role": "development",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090835_front_v4_11_calibration_kinematic_dev_v61.json",
+      "role": "development",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/091054_front_v4_11_calibration_kinematic_dev_v61.json",
+      "role": "development",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/091054_front_start64_v4_11_calibration_kinematic_dev_v61.json",
+      "role": "development",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/091054_front_start128_v4_11_calibration_kinematic_dev_v61.json",
+      "role": "development",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/091054_front_start192_v4_11_calibration_kinematic_diagnostic_v61.json",
+      "role": "diagnostic",
+      "pair": "front--front",
+      "required": false
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090317_front_start64_v4_11_calibration_kinematic_blind_v62.json",
+      "role": "blind",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090835_front_start64_v4_11_calibration_kinematic_blind_v62.json",
+      "role": "blind",
+      "pair": "front--front"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090317_back_v4_11_calibration_kinematic_blind_v64.json",
+      "role": "blind",
+      "pair": "back--back"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090835_back_v4_11_calibration_kinematic_blind_v64.json",
+      "role": "blind",
+      "pair": "back--back"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090317_left_v4_11_calibration_kinematic_blind_v64.json",
+      "role": "blind",
+      "pair": "left--left"
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090835_left_v4_11_calibration_kinematic_blind_v64.json",
+      "role": "diagnostic_rejected_window",
+      "pair": "left--left",
+      "required": false
+    },
+    {
+      "path": "F:/Challenger program/output/natural_scene_calibration/090835_left_start64_v4_11_calibration_kinematic_blind_v67.json",
+      "role": "blind",
+      "pair": "left--left"
+    }
+  ],
+  "real_lidar_semantic_report": null,
+  "cross_bag_extrinsic_report": null,
+  "closed_loop_report": null
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "official-raw-direct-annotation-build-spec/v2",
+  "description": "All six same-name LiDAR/camera pairs directly from the three official MCAP bags.",
+  "bags": [
+    {
+      "bag_id": "rosbag2_2026_07_02-09_03_17",
+      "split": "train",
+      "bag": "/mnt/f/Challenger program/数据/rosbag2_2026_07_02-09_03_17/rosbag2_2026_07_02-09_03_17"
+    },
+    {
+      "bag_id": "rosbag2_2026_07_02-09_08_35",
+      "split": "train",
+      "bag": "/mnt/f/Challenger program/数据/rosbag2_2026_07_02-09_08_35/rosbag2_2026_07_02-09_08_35"
+    },
+    {
+      "bag_id": "rosbag2_2026_07_02-09_10_54",
+      "split": "holdout",
+      "bag": "/mnt/f/Challenger program/数据/rosbag2_2026_07_02-09_10_54/rosbag2_2026_07_02-09_10_54"
+    }
+  ]
+}
